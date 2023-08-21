@@ -42,11 +42,34 @@ class UserController extends Controller
         $token = $user->createToken('token_auth');
 
         return response()->json($token->plainTextToken,200);
+    }  
+
+    public function editProfile(){
+        $user = Auth::user();
+        return response()->json($user,200);
     }
 
+    public function updateProfile(Request $request){
 
-    public function editProfile(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required', 
+            'password' => 'required', 
+        ]);
 
+        try {
+            $user = Auth::user();
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
+    
+            $user->save();
+    
+            return response()->json("Dados atualizados com sucesso !", 200);   
+        } catch (\Throwable $th) {
+            return response()->json("Dados não foram atualizados confirme suas informações", 400); 
+        }
     }
     public function destroyAccount(){
 

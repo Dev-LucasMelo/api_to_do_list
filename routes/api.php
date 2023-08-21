@@ -21,8 +21,9 @@ use App\Http\Controllers\UserController;
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('edit', [UserController::class, 'editProfile']);
+    Route::put('update', [UserController::class, 'updateProfile']);
 
-   
 });
 
 Route::post('register', [UserController::class, 'register']);
