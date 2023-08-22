@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 class UserController extends Controller
-{
+{   
+    public function index(){
+        $user = Auth::user();
+        return response()->json($user,200);
+    }
     public function register(Request $request){
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:8',
         ]);
 
         try {           
@@ -35,7 +39,7 @@ class UserController extends Controller
     
         if(!Auth::attempt($request->only('email','password'))){
      
-            return response()->json("Usuario não autorizado",401);
+            return response()->json("Usuario não encontrado",401);
         }
 
         $user = Auth::user();
@@ -44,17 +48,12 @@ class UserController extends Controller
         return response()->json($token->plainTextToken,200);
     }  
 
-    public function editProfile(){
-        $user = Auth::user();
-        return response()->json($user,200);
-    }
-
     public function updateProfile(Request $request){
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required', 
-            'password' => 'required', 
+            'email' => 'required|',
+            'password' => 'required|min:8',
         ]);
 
         try {
@@ -72,6 +71,9 @@ class UserController extends Controller
         }
     }
     public function destroyAccount(){
+        $user = Auth::user();
+        $user->delete();
 
+        return response()->json("Conta excluida com sucesso !",200);
     }
 }
