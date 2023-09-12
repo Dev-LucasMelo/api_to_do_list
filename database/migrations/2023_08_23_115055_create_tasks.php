@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->boolean('completed');
-            $table->date('limit_date');
+            $table->boolean('completed')->default(false);
+            $table->date('limit_date')->nullable();
             $table->timestamps();
 
             //chave estrangeira

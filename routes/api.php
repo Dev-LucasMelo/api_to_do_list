@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +20,15 @@ use App\Http\Controllers\UserController;
 
 Route::middleware('auth:sanctum')->group(function () {
     //user
-    Route::get('/user', [UserController::class, 'index']);
+    Route::get('user', [UserController::class, 'index']);
     Route::put('update', [UserController::class, 'updateProfile']);
     Route::delete('delete', [UserController::class, 'destroyAccount']);
 
     //tarefas
-
-    
 });
+
+    Route::post('createtask', [TaskController::class, 'store']);
+
 
 //cadastro e login
 Route::post('register', [UserController::class, 'register']);
