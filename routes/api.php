@@ -25,9 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('delete', [UserController::class, 'destroyAccount']);
 
     //tarefas
+    Route::post('createtask', [TaskController::class, 'store']);
 });
 
-    Route::post('createtask', [TaskController::class, 'store']);
+    
 
 
 //cadastro e login

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -16,23 +17,35 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'completed',
-            'limit_date',
-            'user_id' => 'required',
         ]);
 
         try {
-            task::create($request->all())->save();
+            $user = Auth::user();
+
+            $task = new task;
+
+            $task->title = $request->title;
+            $task->description = $request->description;
+            $task->completed = $request->completed;
+            $task->limit_date = $request->limit_date;
+            $task->user_id = $user->id;
+        
+            $task->save();
+
             return response()->json([
                 'sucess' => true,
                 'message' => 'tarefa criada com sucesso !'
             ],200);
+
         } catch (\Throwable $th) {
+
             return response()->json([
                 'sucess' => false,
-                'message' => 'Error ao criar tarefa !'
+                'message' => 'Error ao criar tarefa !',
+                
             ],400);
         }
+         
        
        
 

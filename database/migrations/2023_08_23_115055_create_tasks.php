@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->boolean('completed')->default(false);
+            $table->boolean('completed')->default(false)->nullable();
             $table->date('limit_date')->nullable();
             $table->timestamps();
 
