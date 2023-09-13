@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class TaskController extends Controller
 {
     public function index(){
-        //todas as tarefas
+
+        //todas as tarefas do usuario autenticado
+
+        $user = Auth::user(); //user autenticado e logado pelo sanctum 
+        $tasks = task::where('user_id',$user->id)->get();
+        return response()->json($tasks, 200);
+
     }
     public function store(Request $request){
 
@@ -45,10 +51,6 @@ class TaskController extends Controller
                 
             ],400);
         }
-         
-       
-       
-
     }
     public function task(){
         //tarefa especifica
