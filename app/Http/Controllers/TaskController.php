@@ -15,7 +15,6 @@ class TaskController extends Controller
         $user = Auth::user(); //user autenticado e logado pelo sanctum 
         $tasks = task::where('user_id',$user->id)->get();
         return response()->json($tasks, 200);
-
     }
     public function store(Request $request){
 
@@ -52,8 +51,22 @@ class TaskController extends Controller
             ],400);
         }
     }
-    public function task(){
-        //tarefa especifica
+    public function task($id){
+        //tarefa especifica de um usuario autenticado 
+
+        $user = Auth::user();
+
+        $task = task::where('user_id',$user->id)->get(); //todas as tasks do usuario autenticado
+        // assim somente o usuario que possui as tarefas podem acessar, outro usuario autenticado nao pode 
+
+        foreach($task as $t){
+            if($t->id == $id){
+                return response()->json($t, 200); //procurando task alvo caso nao ache retorna que nao foi encontrada
+            }
+        }
+
+        return response()->json('tarefa nao encontrada',400);
+
     }
     public function updateTask(){
         //Atualizado tarefa

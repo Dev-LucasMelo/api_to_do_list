@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //tarefas
     Route::post('createtask', [TaskController::class, 'store']);
     Route::get('alltasks', [TaskController::class, 'index']);
+    Route::get('task/{id}',[TaskController::class, 'task']);
 });
 
     
